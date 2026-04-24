@@ -888,15 +888,15 @@ games.forEach(g=>{
   if(g.active && g.active!='#'){
     html+=`<div class="btn-row"><button class="btn-download active" onclick="window.open('${g.active}','_blank')">激活后台</button><button class="btn-copy" onclick="copyLink('${g.active}')">复制</button></div>`;
   }
-  if(g.img){
-    html+=`<div class="btn-row"><button class="btn-download img" onclick="openImg('${g.img}')">游戏截图</button></div>`;
-  }
   // 查看套餐（packageUrl）
   if(g.packageUrl && g.packageUrl!='#'){
   html+=`<div class="btn-row">
     <button class="btn-download package" onclick="window.open('${g.packageUrl}','_blank')">查看套餐</button>
     <button class="btn-copy" onclick="copyLink('${g.packageUrl}')">复制</button>
   </div>`;
+  }
+  if(g.img){
+    html+=`<div class="btn-row"><button class="btn-download img" onclick="openImg('${g.img}')">游戏截图</button></div>`;
   }
   if(g.info){
     html+=`<div class="game-info">${g.info}</div>`;
