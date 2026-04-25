@@ -571,38 +571,6 @@ body{
 .img-modal.show{display:flex;}
 // 全局滑动、点击顺滑优化
 document.documentElement.style.touchAction = 'manipulation';
-/* 全局滚动条 + 弹窗内滚动条 统一蓝色 */
-/* 滚动条整体 */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-/* 滚动条轨道背景 */
-::-webkit-scrollbar-track {
-  background: #f5f7fa;
-  border-radius: 10px;
-}
-/* 滚动条滑块（蓝色） */
-::-webkit-scrollbar-thumb {
-  background: #0066ff;
-  border-radius: 10px;
-}
-/* 悬浮加深蓝色 */
-::-webkit-scrollbar-thumb:hover {
-  background: #0052cc;
-}
-
-/* 适配弹窗内部滚动区域 */
-.newGameBox::-webkit-scrollbar,
-.menu-box::-webkit-scrollbar,
-.buyBox::-webkit-scrollbar {
-  width: 6px;
-}
-.newGameBox::-webkit-scrollbar-thumb,
-.menu-box::-webkit-scrollbar-thumb,
-.buyBox::-webkit-scrollbar-thumb {
-  background: #0066ff;
-}
 </style>
 </head>
 
