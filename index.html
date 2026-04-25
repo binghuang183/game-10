@@ -6,6 +6,7 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0066ff">
 <title>凯皇游戏</title>
 <style>
 *{
@@ -590,6 +591,24 @@ body {
 .backTop, .newGameModal, .menu-modal, .buyModal, .addModal {
   transform: translateZ(0);
   will-change: opacity;
+}
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,102,255,0.15);
+}
+html{
+  text-rendering: optimizeLegibility;
+}
+.btn-download:active,
+.btn-item:active {
+  transform: scale(0.97);
+}
+body {
+  overscroll-behavior: none;
+}
+::selection {
+  background: #0066ff;
+  color: #fff;
 }
 </style>
 </head>
