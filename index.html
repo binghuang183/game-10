@@ -1,3 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>凯皇游戏</title>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+}
+html {
+  scroll-behavior: smooth;
+  touch-action: manipulation;
+}
+body{
+  min-height:100vh;
+  background:#fff;
+  padding:20px;
+  color:#111;
+  overflow-x: hidden;
+}
+.page-title{
+  text-align:center;
+  font-size:30px;
+  margin:40px 0 20px;
+  font-weight:bold;
+  background:linear-gradient(90deg,#0066ff,#00a0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.btn-group {
+  max-width: 320px;
+  margin: 0 auto 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-item {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  will-change: transform;
+}
+
+.btn-item:hover {
+  transform: translateY(-2px);
+}
+
+.btn-game {
+  background: linear-gradient(90deg,#0066ff,#00a0ff);
+}
+.btn-new {
+  background: linear-gradient(90deg,#ff3c6e,#ff6b35);
+}
+.btn-service {
+  background: linear-gradient(90deg,#1a6dff,#004eff);
+}
+.btn-buy {
+  background: linear-gradient(90deg,#11c274,#08a060);
+}
+
+.nav-btn{
+  display:block;
+  margin:10px auto 20px;
+  padding:12px 25px;
+  background:linear-gradient(90deg,#0066ff,#00a0ff);
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition: all 0.15s ease;
+}
+
+.newGame-btn{
+  display:block;
+  margin:10px auto 20px;
+  padding:12px 25px;
+  background:linear-gradient(90deg,#ff3c6e,#ff6b35);
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition: all 0.15s ease;
+}
+.newGameModal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+.newGameModal.show{
+  display:flex;
+}
+.newGameBox{
+  background:#fff;
+  max-width:400px;
+  width:100%;
+  border-radius:16px;
+  padding:25px;
+  max-height:80vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+}
+.newGameTitle{
+  font-size:20px;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:15px;
+  color:#222;
+}
+.newGameItem{
+  padding:12px 15px;
+  background:#fff5f7;
+  color:#ff3c6e;
+  border-radius:10px;
+  margin-bottom:8px;
+  font-weight:bold;
+  cursor:pointer;
+  text-align:center;
+  transition: all 0.15s ease;
+  will-change: transform;
+}
+.newGameItem:hover{
+  background:#ff3c6e;
+  color:#fff;
+}
+.newGameItem .time{
+  font-size:12px;
+  color:#999;
+  margin-top:3px;
+  text-align:center;
+}
+
+.menu-modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+.menu-modal.show{
+  display:flex;
+}
+.menu-box{
+  background:#fff;
+  max-width:400px;
+  width:100%;
+  border-radius:16px;
+  padding:25px;
+  max-height:80vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+}
+.menu-title{
+  font-size:20px;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:20px;
+  color:#222;
+}
+.search-input{
+  width:100%;
+  padding:10px 14px;
+  border:1px solid #cce5ff;
+  border-radius:10px;
+  font-size:15px;
+  margin-bottom:15px;
+  outline:none;
+}
+.search-input:focus{
+  border-color:#0066ff;
+}
+.menu-item{
+  padding:12px 15px;
+  background:#f0f7ff;
+  color:#0066ff;
+  border-radius:10px;
+  margin-bottom:8px;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+  transition: all 0.15s ease;
+  will-change: transform;
+}
+.menu-item:hover{
+  background:#0066ff;
+  color:#fff;
+}
+
+.service-btn{
+  display:block;
+  margin:0 auto 40px;
+  padding:14px 30px;
+  background:linear-gradient(90deg,#1a6dff,#004eff);
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.15s ease;
+  will-change: transform;
+}
+.service-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(26,109,255,0.3);
+}
+
+/* 购买弹窗样式 */
+.buyModal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+.buyModal.show{
+  display:flex;
+}
+.buyBox{
+  background:#fff;
+  max-width:700px;
+  width:100%;
+  border-radius:16px;
+  padding:25px;
+  max-height:80vh;
+  overflow-y:auto;
+  display:flex;
+  gap:20px;
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+}
+.buyLeft{
+  width:50%;
+}
+.buyRight{
+  width:50%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.buyTitle{
+  font-size:20px;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:15px;
+  color:#222;
+}
+.buySearch{
+  width:100%;
+  padding:10px 14px;
+  border:1px solid #cce5ff;
+  border-radius:10px;
+  font-size:15px;
+  margin-bottom:15px;
+  outline:none;
+}
+.buySearch:focus{
+  border-color:#08a060;
+}
+.buyItem{
+  padding:14px 16px;
+  background:#f0fff9;
+  color:#08a060;
+  border-radius:10px;
+  margin-bottom:10px;
+  font-weight:bold;
+  cursor:pointer;
+  text-align:center;
+  transition: all 0.15s ease;
+  will-change: transform;
+}
+.buyItem:hover{
+  background:#08a060;
+  color:#fff;
+}
+.buyPrice{
+  font-size:12px;
+  color:#999;
+  margin-top:4px;
+  text-align:center;
+}
+
+/* 自定义金额 */
+.custom-btn{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(90deg,#ff6b35,#ff451a);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:12px;
+  transition: all 0.15s ease;
+}
+.money-box{
+  display:none;
+  margin-bottom:12px;
+}
+.money-input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:16px;
+  outline:none;
+  text-align:center;
+}
+
+/* 支付按钮 */
+.pay-wx{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(90deg,#07c160,#08a060);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:10px;
+  transition: all 0.15s ease;
+}
+.pay-zfb{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(90deg,#1677ff,#0059cc);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  transition: all 0.15s ease;
+}
+
+.addHome-btn{
+  position: static;
+  top: 15px;
+  left: 15px;
+  z-index: 999;
+  padding: 8px 12px;
+  background:linear-gradient(90deg,#ff9500,#ff5e00);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.addModal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+  padding:20px;
+}
+.addModal.show{
+  display:flex;
+}
+.addBox{
+  background:#fff;
+  max-width:400px;
+  width:100%;
+  border-radius:16px;
+  padding:30px;
+  text-align:center;
+  -webkit-overflow-scrolling: touch;
+}
+.addTitle{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:20px;
+  color:#222;
+}
+.addTip{
+  font-size:15px;
+  color:#333;
+  line-height:1.7;
+  margin-bottom:10px;
+  text-align:left;
+}
+.closeAdd{
+  padding:10px 25px;
+  background:#ff6b35;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  margin-top:20px;
+  cursor:pointer;
+  font-weight:bold;
+  transition: all 0.15s ease;
+}
+
+.backTop{
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(90deg,#0066ff,#00a0ff);
+  color: #fff;
+  font-size: 22px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,100,255,0.2);
+  cursor: pointer;
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.backTop.show{
+  display: flex;
+}
+  
+.container{
+  max-width:520px;
+  margin:0 auto;
+}
+.game-card{
+  background:#fff;
+  border-radius:16px;
+  padding:26px;
+  margin-bottom:24px;
+  border:2px solid rgba(0,140,255,0.15);
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,100,255,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+.game-price{
+  background:#fff1f0;
+  color:#c72828;
+  padding:10px 15px;
+  border-radius:8px;
+  margin-bottom:18px;
+  font-size:15px;
+  font-weight:bold;
+  text-align:center;
+}
+.game-info{
+  background:#f7f9ff;
+  padding:12px 15px;
+  border-radius:8px;
+  margin-top:18px;
+  font-size:14px;
+  color:#333;
+  line-height:1.5;
+  border-left:3px solid #1a6dff;
+}
+.game-name{
+  text-align:center;
+  font-size:21px;
+  font-weight:bold;
+  margin-bottom:12px;
+  color:#111;
+}
+.btn-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:14px;
+  align-items:center;
+}
+.btn-download{
+  flex:1;
+  padding:15px;
+  border-radius:10px;
+  border:none;
+  font-size:15px;
+  font-weight:bold;
+  color:#fff;
+  cursor:pointer;
+  transition: all 0.15s ease;
+  will-change: transform;
+}
+.btn-download.ios{
+  background:linear-gradient(90deg,#5a39ff,#7c4dff);
+}
+.btn-download.admin{
+  background:linear-gradient(90deg,#2b58ff,#417dff);
+}
+.btn-download.img{
+  background:linear-gradient(90deg,#00c896,#00a878);
+}
+.btn-download.supersign{
+  background:linear-gradient(90deg, #ff4d94, #ff3366);
+}
+.btn-download.buy{
+  background:linear-gradient(90deg, #ff6b35, #ff451a);
+}
+.btn-download.active{
+  background:linear-gradient(90deg, #ffcc00, #ff9900);
+}
+.btn-download.register{
+  background:linear-gradient(90deg, #00c896, #00a878);
+}
+.btn-download.pc{
+  background:linear-gradient(90deg, #6a11cb, #2575fc);
+}
+.btn-download.web{
+  background:linear-gradient(90deg, #17a2b8, #20c997);
+}
+.btn-download.package {
+  background:linear-gradient(90deg, #ff6b9d, #c44569);
+}
+.btn-copy{
+  width:68px;
+  padding:15px 0;
+  border-radius:10px;
+  border:1px solid #e0e0e0;
+  background:#f7f9ff;
+  color:#1a6dff;
+  font-size:14px;
+  cursor:pointer;
+  transition: all 0.15s ease;
+}
+.img-modal{
+  position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);
+  display:flex;align-items:center;justify-content:center;z-index:9999;
+  padding:20px;display:none;
+}
+.img-modal img{
+  max-width:100%;max-height:90vh;border-radius:10px;
+}
+.img-modal.show{display:flex;}
+// 全局滑动、点击顺滑优化
+document.documentElement.style.touchAction = 'manipulation';
+</style>
+</head>
+
+<body>
+
+<button class="addHome-btn" onclick="showAddTip()">📲 添加桌面</button>
+<button class="backTop" onclick="goToTop()" id="backTop">🚀</button>
+
+<h1 class="page-title">凯皇游戏</h1>
+
+<div class="btn-group">
+  <button class="btn-item btn-game" onclick="openGameMenu()">🎮 游戏目录 | 搜索游戏</button>
+  <button class="btn-item btn-new" onclick="openNewGameModal()">🎮 388元游戏会员大礼包（一码通玩）</button>
+  <button class="btn-item btn-service" onclick="copyWechat()">💬 复制微信 | 加客服开通后台</button>
+  <button class="btn-item btn-buy" onclick="openBuyModal()">💰 立即购买 | 联系客服</button>
+</div>
+
+<!-- 购买弹窗 -->
+<div class="buyModal" id="buyModal" onclick="closeBuyModal()">
+  <div class="buyBox" onclick="event.stopPropagation()">
+    <div class="buyLeft">
+      <div class="buyTitle">选择游戏购买</div>
+      <input type="text" class="buySearch" id="buySearch" placeholder="搜索购买游戏..." oninput="searchBuyGame()">
+      <div id="buyList"></div>
+    </div>
+    <div class="buyRight">
+      <div class="buyTitle">支付方式</div>
+      
+      <button class="custom-btn" onclick="toggleMoney()">💳 自定义金额</button>
+      
+      <div class="money-box" id="moneyBox">
+        <input type="number" class="money-input" id="payMoney" placeholder="请输入支付金额">
+      </div>
+      
+      <button class="pay-wx" onclick="payWechat()">💸 微信支付</button>
+      <button class="pay-zfb" onclick="payAlipay()">💰 支付宝支付</button>
+    </div>
+  </div>
+</div>
+
+<!-- 游戏目录 -->
+<div class="menu-modal" id="gameMenuModal" onclick="closeGameMenu()">
+  <div class="menu-box" onclick="event.stopPropagation()">
+    <div class="menu-title">游戏列表</div>
+    <input type="text" class="search-input" id="gameSearch" placeholder="搜索游戏名称..." oninput="searchGame()">
+    <div id="gameMenuList"></div>
+  </div>
+</div>
+
+<!-- 最新游戏 -->
+<div class="newGameModal" id="newGameModal" onclick="closeNewGameModal()">
+  <div class="newGameBox" onclick="event.stopPropagation()">
+    <div class="newGameTitle">🔥 最新手游上新</div>
+    <div id="newGameList"></div>
+  </div>
+</div>
+
+<!-- 添加桌面 -->
+<div class="addModal" id="addModal" onclick="closeAddModal()">
+  <div class="addBox" onclick="event.stopPropagation()">
+    <div class="addTitle">添加到桌面</div>
+    <div class="addTip">1. 点击浏览器右上角【…】或者【分享】按钮</div>
+    <div class="addTip">2. 选择【添加到桌面】或【添加到主屏幕】</div>
+    <div class="addTip">3. 点击添加，桌面就会出现快捷图标啦！</div>
+    <div class="addTip">4. 为方便您后续快速访问，建议将本页面添加至浏览器书签或收藏夹！</div>
+    <button class="closeAdd" onclick="closeAddModal()">我知道了</button>
+  </div>
+</div>
+
+<div class="container" id="gameList"></div>
+<div class="img-modal" id="imgModal" onclick="closeImg()">
+  <img src="" id="bigImg">
+</div>
+
+<script>
+const wechatId = "khyouxi66";
+
+// 支付链接（你自己改这里）
+const WX_PAY_URL = "#";
+const ZFB_PAY_URL = "#";
+
+// 游戏数据
+const games = [
+{
+  name: "小小三国2（内购+后台）",
+  price: "售价：188元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/G7WuY",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://106.53.56.244/ht",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/jjK5pj1L/233ba48be7fc32591cbe14cf129ed333.png"
+},
+{
+  name: "斗罗大陆8SSP（内购+后台）",
+  price: "售价：38元无限内购 | 488元内购+物品后台",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/zNf1o",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://43.248.188.85:886",
+  active: "http://43.248.188.85:886/pay.php",
+  info: "最新版本更新：百万年神赐魂环+8ssp魂师+4SSP暗器+2SSP神器+2SSP魂灵+SSP外附魂骨+SSP仙品各种该有的都有，全部PVP模式修复正常，已知问题全修复",
+  img: "https://i.postimg.cc/xjK02QKk/1040ce0433a9dfd3abb7defe914f7230.png"
+},
+{
+  name: "星际3重返地球（物品后台）",
+  price: "售价：288元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/ikBVG",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "https://hetaobao.cn/vip/89ef",
+  superBuy: "http://w.kami.vip/s/fQG9m",
+  admin: "http://124.222.44.93/ht",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/FsswBXG0/3101900c8e3415f63a4ab551f4a5e764.png"
+},
+{
+  name: "斗罗武魂觉醒（物品后台）",
+  price: "售价：68元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/rZPHz",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "https://hetaobao.cn/vip/fpsv",
+  superBuy: "http://w.kami.vip/s/fQG9m",
+  admin: "http://111.230.115.47:801/ht/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/50DqqvPy/36dfa7e52df857f7df51889909efe6b5.png"
+},
+{
+  name: "斗罗武魂觉醒（物品后台）",
+  price: "售价：188元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/G7WuY",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://106.53.56.244/ht",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/jjK5pj1L/233ba48be7fc32591cbe14cf129ed333.png"
+},
+{
+  name: "铁杆三国12魂H5（内购+后台）修复版",
+  price: "售价：168元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "http://110.42.107.150:82/data/",
+  android: "https://js.cdn6.vip/CbhGG",
+  android2: "#",
+  ios: "https://js.cdn6.vip/JvFVO",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://110.42.107.150:82/gm555/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/MK5fzVyR/4643bdcee29c49f34b9a3aca7db96743.png"
+},
+{
+  name: "蛮将三国帝皇版（物品后台）",
+  price: "售价：128元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/a9q7q",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "https://hetaobao.cn/vip/hirk",
+  superBuy: "http://w.kami.vip/s/fQG9m",
+  admin: "http://111.170.155.31:801/ht55/gzindex.php",
+  active: "#",
+  info: "同步官服：帝皇孙权、帝皇曹操、帝皇刘备、魔吕布、不滅界域·徐盛、鬼司马懿、残暴董卓",
+  img: "https://i.postimg.cc/SsnHx62x/70bbb276572d8d65be305c59c5e37f6b.png"
+},
+{
+  name: "新动漫大乱斗（内购+后台）",
+  price: "售价：128元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/mybEG",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://103.184.47.190:801/ht5/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/yNbrtDQ1/06af92cc85ca43fcfeebfac688877116.png"
+},
+{
+  name: "九州群将录H5（内购+后台）修复版",
+  price: "售价：168元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "110.42.43.40:88/data/",
+  android: "https://js.cdn6.vip/1nTsA",
+  android2: "#",
+  ios: "https://js.cdn6.vip/05yEc",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://110.42.43.40:88/gm2/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/YC4F8jWN/eaa2ab9f1395fd75142fd6c76598b03d.png"
+},
+{
+  name: "新兵临三国（物品后台）",
+  price: "售价：88元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/47FTP",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://124.223.62.15:81/gm/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/kXLGJs26/674b0b569c9280922a3d9aebf181cce4.png"
+},
+{
+  name: "火影重生LR1版（物品后台）",
+  price: "售价：88元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/hWqSC",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://121.4.26.26:801/ht3/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/PrDh4jq4/da16533dce7b8a35a15ab21decfb5009.png"
+},
+{
+  name: "死神-千年血战（物品后台）",
+  price: "售价：128元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/w7Zu4",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://115.231.232.61:801/ht/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/BbkFG0Wt/d784af62c81e75ddc8afa2c66667c51a.png"
+},
+{
+  name: "神魔幻想三国（内购+后台）",
+  price: "售价：128元无限内购 | 188元内购+物品后台",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/xrzTK",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "https://hetaobao.cn/vip/t97y",
+  superBuy: "http://w.kami.vip/s/fQG9m",
+  admin: "http://43.138.226.109:801/ht123123/gzindex.php",
+  active: "http://43.138.226.109:801/ht55123/gzindex.php",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/VvnM9kHY/5ba7aea36309a9a5dd55dd8a2514a5ab.png"
+},
+{
+  name: "新龙珠超星（内购+后台）",
+  price: "售价：128元无限内购 | 188元内购+物品后台",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/BIfWw",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "https://hetaobao.cn/vip/okuh",
+  superBuy: "http://w.kami.vip/s/fQG9m",
+  admin: "http://134.175.229.136:801/ht123123/gzindex.php",
+  active: "http://134.175.229.136:801/ht55123/gzindex.php",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/ZnS0SFV4/82f83ff27706f15ab889157bedd9839c.png"
+},
+{
+  name: "赤裸原力（物品后台）",
+  price: "售价：188元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/j7tmY",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://119.29.166.210:81/gm/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/wjZqzQj0/2ddb9471a0578f35bcad53d77e3a0a48.png"
+},
+{
+  name: "无尽战记（物品后台）",
+  price: "售价：128元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/VqX8l",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://114.132.46.252/ht",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/05Vqx0t6/d53e098e4dbf02665eef66ccbdbf30e8.png"
+},
+{
+  name: "霸王三国（内购+后台）",
+  price: "售价：128元",
+  packageUrl: "#",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/ceBUb",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "https://hetaobao.cn/vip/ajxo",
+  superBuy: "http://w.kami.vip/s/fQG9m",
+  admin: "http://119.29.149.211:81/gmht/gzindex.php",
+  active: "#",
+  info: "用多少发多少，不要一次性发太多即可",
+  img: "https://i.postimg.cc/T3qz7jWN/1e34ab0bfff945897cedfff9fb383d6b.png"
+},
+{
+  name: "商道高手（无限内购）",
+  price: "售价：688元",
+  packageUrl: "https://www.kdocs.cn/l/cmkx01lw3JLY",
+  register: "#",
+  pc: "#",
+  web: "#",
+  android: "https://js.cdn6.vip/TTnBm",
+  android2: "#",
+  ios: "#",
+  ios2: "#",
+  superSign: "#",
+  superBuy: "#",
+  admin: "http://193.112.183.171:88/",
+  active: "#",
+  info: "100元自选3个道具，数量最大999",
+  img: "https://i.postimg.cc/7YqM1gDV/a743286ce5ac9c0c2837703282601e89.png"
+}
+];
+
+// 最新游戏
+const newGames = [
+  { name: "源战役（物品后台）", time: "2099-99-99", index: 0 },
+  { name: "兵器王者同官版（内购+后台）", time: "2099-99-99", index: 1 },
+  { name: "从前有条街（内购+后台）", time: "2099-99-99", index: 2 },
+  { name: "火影忍者-风影游侠（内购+后台）", time: "2099-99-99", index: 3 },
+  { name: "江山群英传（物品后台）", time: "2099-99-99", index: 4 },
+  { name: "最强奇兵（物品后台）", time: "2099-99-99", index: 5 },
 ];
 
 // 购买游戏列表（以后加游戏只改这里！）
@@ -8,7 +994,7 @@ const buyGames = [
   { name: "九州江湖情", price: "488元" },
   { name: "九州江湖情", price: "688元" },
   { name: "口袋大冒险", price: "188元" },
-  { name: "死神虚域", price: "188元" },
+  { name: "死神虚域", price: "188元" }
 ];
 
 let selectedGame = null;
