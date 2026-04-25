@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>凯皇游戏</title>
 <style>
 *{
@@ -571,6 +574,23 @@ body{
 .img-modal.show{display:flex;}
 // 全局滑动、点击顺滑优化
 document.documentElement.style.touchAction = 'manipulation';
+img {
+  max-width: 100%;
+  display: block;
+  /* 图片硬件加速、顺滑渲染 */
+  backface-visibility: hidden;
+  /* 防止图片拖动卡顿 */
+  pointer-events: auto;
+  user-select: none;
+}
+body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+.backTop, .newGameModal, .menu-modal, .buyModal, .addModal {
+  transform: translateZ(0);
+  will-change: opacity;
+}
 </style>
 </head>
 
@@ -5503,6 +5523,10 @@ games.forEach(g=>{
   card.innerHTML = html;
   container.appendChild(card);
 });
+// 关闭无用触摸事件监听，减少占用
+document.addEventListener('touchstart', function(){}, {passive:true});
+// 防止浏览器自动放大、抖动
+window.addEventListener('resize', () => {}, {passive:true});
 </script>
 </body>
 </html>
