@@ -209,12 +209,12 @@ const games = [
 }
 ];
 
-// 1. 批量自动给所有游戏加 num 序号（放在games数组后面！！！）
+// 自动给游戏加编号
 games.forEach((item, idx) => {
     item.num = idx + 1;
 });
 
-// 2. 你的自定义上新列表（只填num即可）
+// 你自定义的上新列表
 const newGames = [
   { name: "源战役（物品后台）", time: "2099-99-99", num: 3 },
   { name: "兵器王者同官版（内购+后台）", time: "2099-99-99", num: 4 },
@@ -273,7 +273,7 @@ function searchGame(){
   renderMenu(document.getElementById('searchInput').value);
 }
 
-// 3. 稳定跳转函数
+// 稳定跳转函数
 function go(i){
   closeMenu();
   closeNew();
@@ -286,7 +286,6 @@ function go(i){
   }, 150);
 }
 
-// 4. 上新列表渲染（自动匹配num）
 function openNew(){
   document.getElementById('newModal').classList.add('show');
   renderNew();
@@ -298,7 +297,6 @@ function renderNew(){
   let b = document.getElementById('newList');
   b.innerHTML='';
   newGames.forEach(g=>{
-    // 根据num获取真实index
     let findItem = games.find(x => x.num === g.num);
     if(!findItem) return;
     let realIdx = games.indexOf(findItem);
@@ -365,12 +363,12 @@ function closeImg(){
   document.getElementById('imgModal').classList.remove('show');
 }
 
-// 5. 游戏卡片渲染（带id）
+// 渲染游戏列表
 const c = document.getElementById('gameList');
 games.forEach((g, i)=>{
   let d = document.createElement('div');
   d.className='game-card';
-  d.id = 'gameCard' + i; // 关键id
+  d.id = 'gameCard' + i;
   let h = `<div class="game-name">${g.name}</div>`;
   if(g.price)h+=`<div class="game-price">${g.price}</div>`;
 
