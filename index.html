@@ -598,17 +598,13 @@ body {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
+/* 只改颜色，尺寸100%跟随btn-download，绝对一模一样 */
 .packageUrl {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: unset !important;
-    padding: inherit !important;
-    margin: inherit !important;
-    border-radius: inherit !important;
-    font-size: inherit !important;
-    font-weight: inherit !important;
-    background: #ff4757 !important;
+    background: #ff4757 !important; /* 查看套餐专属红色 */
     color: #fff !important;
+}
+.packageUrl:hover {
+    background: #e83445 !important;
 }
 </style>
 </head>
