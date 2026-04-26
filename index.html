@@ -767,7 +767,11 @@ function searchGame(){
 }
 function go(i){
   closeMenu();
-  document.querySelectorAll('.game-card')[i].scrollIntoView({behavior:'smooth'});
+  closeNew(); // 关键：关闭最新游戏弹窗
+  const cards = document.querySelectorAll('.game-card');
+  if(cards[i]){
+    cards[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 function openNew(){
@@ -845,9 +849,10 @@ function closeImg(){
 }
 
 const c = document.getElementById('gameList');
-games.forEach(g=>{
+games.forEach((g, i)=>{
   let d = document.createElement('div');
   d.className='game-card';
+  d.id = 'gameCard' + i; // 给每个卡片加唯一ID（关键修复）
   let h = `<div class="game-name">${g.name}</div>`;
   if(g.price)h+=`<div class="game-price">${g.price}</div>`;
 
