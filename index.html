@@ -598,6 +598,20 @@ body {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
+.package-btn {
+  display: inline-block;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+.package-btn:hover {
+  background: #218838;
+}
 </style>
 </head>
 
@@ -5747,6 +5761,9 @@ games.forEach((g, i)=>{
   if(g.active && g.active!='#'){
     html+=`<div class="btn-row"><button class="btn-download active" onclick="window.open('${g.active}','_blank')">激活后台</button><button class="btn-copy" onclick="copyLink('${g.active}')">复制</button></div>`;
   }
+  {{#if packageUrl}}
+<button class="package-btn" onclick="window.open('{{packageUrl}}')">查看套餐</button>
+{{/if}}
   if(g.img){
     html+=`<div class="btn-row"><button class="btn-download img" onclick="openImg('${g.img}')">游戏截图</button></div>`;
   }
