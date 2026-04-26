@@ -703,16 +703,16 @@ const games = [
 ];
 
 const newGames = [
-  { name: "源战役（物品后台）", time: "2099-99-99", index: 0 },
-  { name: "兵器王者同官版（内购+后台）", time: "2099-99-99", index: 1 },
-  { name: "从前有条街（内购+后台）", time: "2099-99-99", index: 2 },
-  { name: "火影忍者-风影游侠（内购+后台）", time: "2099-99-99", index: 3 },
-  { name: "江山群英传（物品后台）", time: "2099-99-99", index: 4 },
-  { name: "最强奇兵（物品后台）", time: "2099-99-99", index: 5 },
-  { name: "路战狂魔师（物品后台）", time: "2099-99-99", index: 6 },
-  { name: "苍空物语H5（物品后台）", time: "2099-99-99", index: 7 },
-  { name: "新死神魂之觉醒同官服（内购+后台）", time: "2099-99-99", index: 8 },
-  { name: "海贼王新时代同官版（内购+后台）", time: "2099-99-99", index: 9 }
+  { name: "源战役（物品后台）", time: "会员套餐专享", index: 3 },
+  { name: "兵器王者同官版（内购+后台）", time: "会员套餐专享", index: 4 },
+  { name: "从前有条街（内购+后台）", time: "会员套餐专享", index: 5 },
+  { name: "火影忍者-风影游侠（内购+后台）", time: "会员套餐专享", index: 6 },
+  { name: "江山群英传（物品后台）", time: "会员套餐专享", index: 7 },
+  { name: "最强奇兵（物品后台）", time: "会员套餐专享", index: 8 },
+  { name: "路战狂魔师（物品后台）", time: "会员套餐专享", index: 9 },
+  { name: "苍空物语H5（物品后台）", time: "会员套餐专享", index: 10 },
+  { name: "新死神魂之觉醒同官服（内购+后台）", time: "会员套餐专享", index: 11 },
+  { name: "海贼王新时代同官版（内购+后台）", time: "会员套餐专享", index: 12 }
 ];
 
 const buyGames = [
@@ -765,22 +765,16 @@ function renderMenu(k=''){
 function searchGame(){
   renderMenu(document.getElementById('searchInput').value);
 }
-function go(i) {
-    // 关闭弹窗
-    closeMenu();
-    closeNew();
-
-    // 超长延迟 + 精准ID定位，强制生效
-    setTimeout(() => {
-        let target = document.getElementById("gameCard" + i);
-        if (!target) return;
-        // 强制置顶滚动，无视遮挡
-        let top = target.offsetTop - 20;
-        window.scrollTo({
-            top: top,
-            behavior: "smooth"
-        });
-    }, 150);
+function go(i){
+  closeMenu();
+  closeNew();
+  setTimeout(() => {
+    const target = document.getElementById("gameCard" + i);
+    if(target){
+      let top = target.offsetTop - 30;
+      window.scrollTo({top: top, behavior: "smooth"});
+    }
+  }, 150);
 }
 
 function openNew(){
