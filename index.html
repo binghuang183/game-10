@@ -598,19 +598,14 @@ body {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
-.package-btn {
-  display: inline-block;
-  background: #3498db;
+.packageUrl {
+  background: linear-gradient(90deg, #ff4757, #ff3742);
   color: #fff;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-size: 14px;
-  cursor: pointer;
-  margin-top: 6px;
-}
-.package-btn:hover {
-  background: #2980b9;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -5761,7 +5756,7 @@ games.forEach((g, i)=>{
   if(g.active && g.active!='#'){
     html+=`<div class="btn-row"><button class="btn-download active" onclick="window.open('${g.active}','_blank')">激活后台</button><button class="btn-copy" onclick="copyLink('${g.active}')">复制</button></div>`;
   }
-  if(g.packageUrl && g.packageUrl!='#'){
+  if(g.packageUrl){
     html+=`<div class="btn-row"><button class="btn-download packageUrl" onclick="window.open('${g.packageUrl}','_blank')">查看套餐</button><button class="btn-copy" onclick="copyLink('${g.packageUrl}')">复制</button></div>`;
   }
   if(g.img){
