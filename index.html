@@ -765,20 +765,22 @@ function renderMenu(k=''){
 function searchGame(){
   renderMenu(document.getElementById('searchInput').value);
 }
-function go(i){
-  // 先关闭两个弹窗
-  closeMenu();
-  closeNew();
-  // 延迟执行滚动，避开弹窗遮挡
-  setTimeout(() => {
-    const target = document.getElementById('gameCard' + i);
-    if(target){
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-  }, 80);
+function go(i) {
+    // 关闭弹窗
+    closeMenu();
+    closeNew();
+
+    // 超长延迟 + 精准ID定位，强制生效
+    setTimeout(() => {
+        let target = document.getElementById("gameCard" + i);
+        if (!target) return;
+        // 强制置顶滚动，无视遮挡
+        let top = target.offsetTop - 20;
+        window.scrollTo({
+            top: top,
+            behavior: "smooth"
+        });
+    }, 150);
 }
 
 function openNew(){
